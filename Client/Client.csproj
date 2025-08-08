@@ -20,8 +20,4 @@
 		<Content Include="wwwroot\_content\Blazored.TextEditor\**" CopyToOutputDirectory="PreserveNewest" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="wwwroot\js\" />
-	</ItemGroup>
-
 </Project>

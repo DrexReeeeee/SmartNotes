@@ -56,7 +56,7 @@
         var response = await Http.PostAsJsonAsync("api/user/register", signupModel);
         if (response.IsSuccessStatusCode)
         {
-            Navigation.NavigateTo("/");
+            Navigation.NavigateTo("/Login");
         }
         else
         {

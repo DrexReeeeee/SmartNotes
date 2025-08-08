@@ -1,0 +1,141 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Press Start 2P', cursive;
+    background: radial-gradient(circle at center, #300048, #000);
+    color: #fff;
+    overflow: hidden;
+    animation: bg-flicker 5s infinite alternate;
+}
+
+/* FLEX CENTER EVERYTHING */
+.main-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 80px); /* adjust for navbar height */
+    text-align: center;
+    padding: 0 1rem;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 1.5rem 2rem;
+    align-items: center;
+    background: transparent;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+    color: #d0aaff;
+    text-shadow: 0 0 5px #c871ff;
+}
+
+.pixel-icon {
+    margin-right: 0.7rem;
+    font-size: 1.5rem;
+    color: #d98cff;
+    text-shadow: 0 0 6px #d98cff;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    margin-left: 2rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid #fff;
+    background-color: transparent;
+    transition: all 0.3s;
+    font-size: 0.75rem;
+}
+
+    .nav-links a:hover {
+        background-color: #9e00ff;
+        color: #fff;
+        box-shadow: 0 0 10px #9e00ff;
+    }
+
+.container {
+    max-width: 800px;
+}
+
+.title {
+    font-size: 2rem;
+    color: #fff;
+    text-shadow: 0 0 8px #ff66ff, 0 0 15px #9f00ff;
+    animation: glow 2s infinite alternate;
+}
+
+.subtitle {
+    font-size: 1rem;
+    color: #b483ff;
+    margin-top: 1.5rem;
+    animation: slide-in 1.5s ease-out forwards;
+}
+
+.description {
+    font-size: 0.7rem;
+    margin-top: 1.5rem;
+    color: #ccc;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.8;
+}
+
+.rsvp-button {
+    margin-top: 2rem;
+    background: #fff;
+    border: 2px solid #9f00ff;
+    color: #9f00ff;
+    padding: 0.7rem 2rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+    .rsvp-button:hover {
+        background: #9f00ff;
+        color: #fff;
+        box-shadow: 0 0 10px #ff00ff;
+    }
+
+/* Animations */
+@keyframes glow {
+    from {
+        text-shadow: 0 0 5px #ff66ff, 0 0 10px #9f00ff;
+    }
+
+    to {
+        text-shadow: 0 0 10px #ff66ff, 0 0 20px #9f00ff;
+    }
+}
+
+@keyframes bg-flicker {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 100% 100%;
+    }
+}
+
+@keyframes slide-in {
+    from {
+        transform: translateY(40px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
