@@ -1,7 +1,5 @@
 # 🎮💾 SMART NOTES — *PRESS START TO STUDY*
 
-![Smart Notes Banner](./wwwroot/images/banner.png)
-
 > 🕹 *Level up your studying game!*  
 > Smart Notes is a **retro pixel-themed PDF summarizer & note-taking web app** built for students who want **fun + productivity**.  
 > 📄✨ Collaborate in **real time**, share notes like cheat codes, and enjoy a **CRT-screen-style studying experience**.
