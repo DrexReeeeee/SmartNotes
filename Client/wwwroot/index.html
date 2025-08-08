@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Client</title>
+    <base href="/" />
+     <!-- Pixel Font -->
+    <link rel="preload" href="fonts/PressStart2P-Regular.ttf" as="font" type="font/ttf" crossorigin>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+
+    <!-- Global Pixel Theme -->
+    <link href="css/theme.css" rel="stylesheet" />
+
+    <!-- Optional Favicon -->
+    <link rel="icon" href="https://getbootstrap.com/docs/5.3/assets/img/favicons/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link href="Client.styles.css" rel="stylesheet" />
+    <link href="_content/Blazored.TextEditor/quill.snow.css" rel="stylesheet" />
+
+    <!-- ✅ jsPDF and html2canvas for PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+   <script>
+   window.applyTheme = (theme) => {
+    const body = document.body;
+    body.classList.remove("dark-theme", "light-theme");
+    body.classList.add(`${theme}-theme`);
+    localStorage.setItem("theme", theme);
+};
+
+window.onload = () => {
+    const savedTheme = localStorage.getItem("theme") || "dark";
+    document.body.classList.add(`${savedTheme}-theme`);
+};
+
+
+</script>
+</head>
+
+<body>
+    <div id="app">
+        <svg class="loading-progress">
+            <circle r="40%" cx="50%" cy="50%" />
+            <circle r="40%" cx="50%" cy="50%" />
+        </svg>
+        <div class="loading-progress-text"></div>
+    </div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+
+  
+    <script>
+
+    window.getEditorHtml = function (element) {
+        return element.innerHTML;
+    };
+
+    window.convertHtmlToText = function (html) {
+        const div = document.createElement("div");
+        div.innerHTML = html;
+        return div.innerText;
+    };
+
+    window.applyEditorCommand = function (command) {
+        if (command === "increaseFontSize") {
+            document.execCommand("fontSize", false, "5");
+        } else if (command === "decreaseFontSize") {
+            document.execCommand("fontSize", false, "2");
+        } else {
+            document.execCommand(command, false, null);
+        }
+    };
+
+    window.downloadPdfFromHtml = async function (htmlContent) {
+        if (!window.jspdf || !window.jspdf.jsPDF) {
+            console.error("jsPDF is not loaded.");
+            return;
+        }
+
+        const { jsPDF } = window.jspdf;
+
+        const tempDiv = document.createElement("div");
+        tempDiv.innerHTML = htmlContent;
+        tempDiv.style.position = "absolute";
+        tempDiv.style.left = "-9999px";
+        document.body.appendChild(tempDiv);
+
+        await html2canvas(tempDiv, { scale: 2 }).then(canvas => {
+            const imgData = canvas.toDataURL("image/png");
+
+            const pxPerMm = 3.779528;
+            const pdfWidth = canvas.width / pxPerMm;
+            const pdfHeight = canvas.height / pxPerMm;
+
+            const pdf = new jsPDF({
+                orientation: pdfWidth > pdfHeight ? "landscape" : "portrait",
+                unit: "mm",
+                format: [pdfWidth, pdfHeight]
+            });
+
+            pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+            pdf.save("SmartNotes_Summary.pdf");
+            document.body.removeChild(tempDiv);
+        });
+    };
+</script>
+
+    <!-- ✅ JS Interop Functions -->
+    <script>
+        window.editorInterop = {
+            focusEditor: function () {
+                const editor = document.querySelector('.editor-content');
+                if (editor) {
+                    editor.focus();
+                    return true;
+                }
+                return false;
+            },
+            getEditorContent: function () {
+                const editor = document.querySelector('.editor-content');
+                return editor ? editor.innerHTML : '';
+            },
+            execCommand: function (command, value) {
+                document.execCommand(command, false, value || null);
+            },
+            getSelectionText: function () {
+                return window.getSelection().toString();
+            },
+            insertLink: function (url, text) {
+                const selection = window.getSelection();
+                if (selection.rangeCount > 0) {
+                    const range = selection.getRangeAt(0);
+                    const anchor = document.createElement('a');
+                    anchor.href = url;
+                    anchor.textContent = text || url;
+                    range.deleteContents();
+                    range.insertNode(anchor);
+                } else {
+                    document.execCommand('createLink', false, url);
+                }
+            },
+            insertImage: function (url, alt) {
+                const img = document.createElement('img');
+                img.src = url;
+                img.alt = alt || '';
+                const selection = window.getSelection();
+                if (selection.rangeCount > 0) {
+                    const range = selection.getRangeAt(0);
+                    range.deleteContents();
+                    range.insertNode(img);
+                } else {
+                    document.execCommand('insertImage', false, url);
+                }
+            }
+        };
+
+        // ✅ General editor functions
+        window.setEditorContent = function (element, html) {
+            element.innerHTML = html;
+        };
+
+        window.getEditorContent = function (element) {
+            return element.innerHTML;
+        };
+
+        window.getEditorHtml = function (element) {
+            return element.innerHTML;
+        };
+
+        window.convertHtmlToText = function (html) {
+            const div = document.createElement("div");
+            div.innerHTML = html;
+            return div.innerText; // Removes all formatting
+        };
+
+        window.applyEditorCommand = function (command) {
+            if (command === "increaseFontSize") {
+                document.execCommand("fontSize", false, "5");
+            } else if (command === "decreaseFontSize") {
+                document.execCommand("fontSize", false, "2");
+            } else {
+                document.execCommand(command, false, null);
+            }
+        };
+
+        // ✅ PDF Export function using jsPDF and html2canvas
+        window.downloadPdfFromHtml = async function (htmlContent) {
+            if (!window.jspdf || !window.jspdf.jsPDF) {
+                console.error("jsPDF is not loaded.");
+                return;
+            }
+
+            const { jsPDF } = window.jspdf;
+
+            const tempDiv = document.createElement("div");
+            tempDiv.innerHTML = htmlContent;
+            tempDiv.style.position = "absolute";
+            tempDiv.style.left = "-9999px"; // hide from screen
+            document.body.appendChild(tempDiv);
+
+            await html2canvas(tempDiv, { scale: 2 }).then(canvas => {
+                const imgData = canvas.toDataURL("image/png");
+
+                const pxPerMm = 3.779528;
+                const pdfWidth = canvas.width / pxPerMm;
+                const pdfHeight = canvas.height / pxPerMm;
+
+                const pdf = new jsPDF({
+                    orientation: pdfWidth > pdfHeight ? "landscape" : "portrait",
+                    unit: "mm",
+                    format: [pdfWidth, pdfHeight]
+                });
+
+                pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+                pdf.save("SmartNotes_Summary.pdf");
+                document.body.removeChild(tempDiv);
+            });
+        };
+    </script>
+
+      <!-- ✅ Blazor & TextEditor scripts -->
+  <script src="_content/Blazored.TextEditor/quill.min.js"></script>
+  <script src="_content/Blazored.TextEditor/blazored-text-editor.js"></script>
+  <script src="_framework/blazor.webassembly.js"></script>
+
+    <!-- Optional TinyMCE if you need it -->
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="tinymce-init.js"></script>
+
+</body>
+
+</html>

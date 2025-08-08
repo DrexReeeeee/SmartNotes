@@ -1,0 +1,149 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+.notes-container {
+    font-family: 'Press Start 2P', monospace;
+    color: #aa00ff;
+    padding: 20px;
+    background-color: #000;
+    
+}
+
+h3 {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 36px;
+    color: #ffffff;
+    text-shadow: 2px 2px #550077, 0 0 4px #aa00ff;
+    margin-bottom: 30px;
+}
+
+/* 3D Pixel Card Effect */
+.card {
+    background-color: #222;
+    border: 3px solid #aa00ff;
+    box-shadow: 4px 4px 0 #550077, 6px 6px 0 #000, 0 0 10px #aa00ff;
+    transition: transform 0.2s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+    .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 6px 6px 0 #550077, 8px 8px 0 #000, 0 0 12px #aa00ff;
+        cursor: pointer;
+    }
+
+.card-title {
+    font-size: 14px;
+    color: #ffffff;
+    text-shadow: 1px 1px #550077, 0 0 3px #aa00ff;
+}
+
+.card-text {
+    font-size: 12px;
+    color: #cccccc;
+    margin-top: 10px;
+    text-shadow: 1px 1px #550077;
+}
+
+.card-footer {
+    background-color: #111;
+    border-top: 2px dashed #aa00ff;
+    font-size: 10px;
+    color: #aa00ff;
+}
+
+/* Glowing 8-bit Button */
+button.btn-danger {
+    font-size: 10px;
+    font-family: 'Press Start 2P', monospace;
+    background-color: #1a1a1a;
+    border: 2px solid #aa00ff;
+    color: #aa00ff;
+    box-shadow: 2px 2px 0 #550077, 0 0 6px #aa00ff;
+    padding: 4px 8px;
+    transition: all 0.2s ease-in-out;
+}
+
+    button.btn-danger:hover {
+        background-color: #aa00ff;
+        color: #fff;
+        box-shadow: 2px 2px 0 #550077, 0 0 12px #aa00ff;
+    }
+
+.border-dashed {
+    border-style: dashed !important;
+}
+
+/* Modal Styling */
+.modal-content {
+    background-color: #1a1a1a;
+    border: 2px solid #aa00ff;
+    box-shadow: 4px 4px 0 #550077, 0 0 12px #aa00ff;
+    font-family: 'Press Start 2P', monospace;
+    color: #fff;
+}
+
+.modal-title {
+    font-size: 14px;
+    text-shadow: 1px 1px #550077, 0 0 4px #aa00ff;
+}
+
+.modal-footer .btn {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    border: 2px solid #aa00ff;
+    box-shadow: 2px 2px 0 #550077, 0 0 5px #aa00ff;
+    color: #aa00ff;
+    background-color: #111;
+    padding: 4px 8px;
+}
+
+    .modal-footer .btn:hover {
+        background-color: #aa00ff;
+        color: #fff;
+    }
+
+/* Light Mode Overrides */
+body.light-mode .notes-container {
+    background-color: #fff;
+    color: #aa00ff;
+    border-color: #aa00ff;
+    box-shadow: inset 0 0 0 3px #fff, 4px 4px 0 #aa00ff, 8px 8px 0 #aaa;
+}
+
+body.light-mode .card {
+    background-color: #fff;
+    border: 3px solid #aa00ff;
+    box-shadow: 4px 4px 0 #aa00ff, 6px 6px 0 #aaa, 0 0 6px #aa00ff;
+}
+
+body.light-mode .card-title,
+body.light-mode .card-text {
+    color: #000;
+    text-shadow: 0 0 2px #aa00ff;
+}
+
+body.light-mode .card-footer {
+    background-color: #f8f8f8;
+    border-top: 2px dashed #aa00ff;
+    color: #aa00ff;
+}
+
+body.light-mode .modal-content {
+    background-color: #fff;
+    color: #000;
+    box-shadow: 4px 4px 0 #aa00ff, 0 0 12px #aa00ff;
+}
+
+body.light-mode .modal-footer .btn {
+    background-color: #fff;
+    color: #aa00ff;
+}
+
+    body.light-mode .modal-footer .btn:hover {
+        background-color: #aa00ff;
+        color: #fff;
+    }
+
+.text-muted {
+    color: #999 !important;
+    font-size: 10px;
+}

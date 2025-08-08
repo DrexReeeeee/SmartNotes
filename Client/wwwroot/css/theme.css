@@ -1,0 +1,568 @@
+﻿@font-face {
+    font-family: 'PressStart2P';
+    src: url('/fonts/PressStart2P-Regular.ttf') format('truetype');
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: black;
+    color: white;
+    font-family: 'PressStart2P', monospace;
+    overflow-y: auto;
+}
+:root {
+    --bg-color: #0d001a;
+    --text-color: #d0b3ff;
+    --header-color: #ff6dfc;
+    --glow: 0 0 8px #d98aff;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+
+
+
+body {
+    margin: 0;
+    font-family: 'Press Start 2P', cursive, sans-serif;
+    color: #e0e0e0;
+    background-color: #000;
+    transition: background-color 0.3s ease;
+    position: relative;
+    z-index: 0;
+}
+
+
+    /* Background Animation (Shared for both themes) */
+    body.dark-theme::before,
+    body.light-theme::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: 20px 20px;
+        animation: float-pixels 10s linear infinite;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    /* Pixel Background for Dark Theme */
+    body.dark-theme::before {
+        background-image: radial-gradient(#9f5ce3 1px, transparent 1px);
+    }
+
+    /* Pixel Background for Light Theme */
+    body.light-theme::before {
+        background-image: radial-gradient(#5d3dc0 1px, transparent 1px);
+    }
+
+/* Pixel Float Animation */
+@keyframes float-pixels {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 100px 100px;
+    }
+}
+
+/* Light Theme Overrides */
+body.light-theme {
+    background-color: #ffffff;
+    color: #222;
+}
+
+body.dark-theme {
+    background-color: black;
+    color: #222;
+}
+/* Ensure readable text in both themes */
+p, span, label, input, textarea, button {
+    color: inherit;
+}
+
+
+.glow-title {
+    font-size: 1.5rem;
+    text-align: center;
+    color: #e0e0ff;
+    text-shadow: 0 0 5px #f0f, 0 0 10px #f0f, 0 0 15px #f0f;
+    animation: glow-pulse 2s ease-in-out infinite;
+}
+
+
+@keyframes glow-pulse {
+    0% {
+        text-shadow: 0 0 5px #f0f;
+    }
+
+    50% {
+        text-shadow: 0 0 15px #f0f;
+    }
+
+    100% {
+        text-shadow: 0 0 5px #f0f;
+    }
+}
+
+
+body.dark-theme::before,
+body.light-theme::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: 20px 20px;
+    animation: float-pixels 10s linear infinite;
+    z-index: 1;
+    pointer-events: none;
+}
+
+
+body.dark-theme::before {
+    background-image: radial-gradient(#9f5ce3 1px, transparent 1px);
+}
+
+body.light-theme::before {
+    background-image: radial-gradient(#5d3dc0 1px, transparent 1px);
+}
+
+
+@keyframes float-pixels {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: 100px 100px;
+    }
+}
+
+
+body.light-theme {
+    background-color: #ffffff;
+    color: #222;
+}
+
+
+p, span, label, input, textarea, button {
+    color: inherit;
+}
+
+
+.glow-title {
+    font-size: 1.5rem;
+    text-align: center;
+    color: #e0e0ff;
+    text-shadow: 0 0 5px #f0f, 0 0 10px #f0f, 0 0 15px #f0f;
+    animation: glow-pulse 2s ease-in-out infinite;
+}
+
+/* Pulse Animation */
+@keyframes glow-pulse {
+    0% { text-shadow: 0 0 5px #f0f; }
+    50% { text-shadow: 0 0 15px #f0f; }
+    100% { text-shadow: 0 0 5px #f0f; }
+}
+
+
+@keyframes float-pixels {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 100px 100px;
+    }
+}
+
+@keyframes glow-flicker {
+    from {
+        text-shadow: 0 0 5px #fff;
+    }
+
+    to {
+        text-shadow: 0 0 10px #ffb3ff, 0 0 20px #e77eff;
+    }
+}
+
+/* Toggle Switch */
+.theme-toggle-wrapper {
+    text-align: right;
+    padding: 10px;
+    z-index: 2;
+    position: relative;
+}
+
+.theme-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+}
+
+    .theme-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #4a148c;
+    border: 2px solid #ffffff;
+    transition: .4s;
+    border-radius: 8px;
+}
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 22px;
+        width: 22px;
+        left: 4px;
+        bottom: 4px;
+        background-color: #fff;
+        border-radius: 4px;
+        transition: .4s;
+    }
+
+input:checked + .slider {
+    background-color: #ff5eff;
+}
+
+    input:checked + .slider:before {
+        transform: translateX(28px);
+    }
+
+.pixel-text {
+    font-size: 25px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.pixel-input {
+    border: 3px solid #9f5ce3;
+    background-color: #1e0033;
+    color: white;
+    padding: 8px;
+    font-family: 'PressStart2P', monospace;
+}
+
+.pixel-btn {
+    background: #9f5ce3;
+    border: 3px solid white;
+    color: black;
+    padding: 10px;
+    cursor: pointer;
+    width: 20%;
+    margin-top: 10px;
+    margin-right:15px;
+    font-family: 'PressStart2P', monospace;
+    text-shadow: 1px 1px black;
+    transition: all 0.2s;
+}
+
+    .pixel-btn.secondary {
+        background: #5c28a8;
+        color: #ddd;
+    }
+
+    .pixel-btn:hover {
+        box-shadow: 0 0 10px #9f5ce3;
+        transform: scale(1.05);
+    }
+
+.pixel-navbar {
+    background-color: #1e0033;
+    border-bottom: 3px solid #9f5ce3;
+    padding: 12px;
+    font-family: 'PressStart2P', monospace;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pixel-logo {
+    font-size: 14px;
+    color: #9f5ce3;
+    text-shadow: 1px 1px black;
+}
+
+.pixel-toggler {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.pixel-nav-menu {
+    background-color: #000000;
+    border-right: 3px solid #9f5ce3;
+    padding: 20px;
+    min-height: 100vh;
+    font-family: 'PressStart2P', monospace;
+}
+
+.pixel-nav-link {
+    display: block;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #1e0033;
+    color: white;
+    border: 2px solid #9f5ce3;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+    .pixel-nav-link:hover {
+        background-color: #9f5ce3;
+        color: black;
+        box-shadow: 0 0 10px #9f5ce3;
+        transform: scale(1.05);
+    }
+
+.animated-card {
+    border: 4px solid #aa00ff;
+    border-radius: 12px;
+    padding: 2rem;
+    background-color: #0f001a;
+    box-shadow: 0 0 12px #aa00ff, inset 0 0 6px #550077;
+    animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+.flicker {
+    animation: flicker 2s infinite alternate;
+}
+
+@keyframes flicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        opacity: 1;
+    }
+
+    20%, 24%, 55% {
+        opacity: 0.4;
+    }
+}
+
+.typewriter {
+    overflow: hidden;
+    border-right: .1em solid #fff;
+    white-space: nowrap;
+    animation: typing 2s steps(20, end), blink-caret .75s step-end infinite;
+    font-family: 'Press Start 2P', monospace;
+}
+
+@keyframes typing {
+    from {
+        width: 0
+    }
+
+    to {
+        width: 100%
+    }
+}
+
+@keyframes blink-caret {
+    from, to {
+        border-color: transparent
+    }
+
+    50% {
+        border-color: white
+    }
+}
+
+.pulse {
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.3);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    }
+}
+
+.glow:hover {
+    box-shadow: 0 0 8px 4px #aa00ff;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.loader {
+    width: 32px;
+    height: 32px;
+    border: 4px solid #444;
+    border-top: 4px solid #aa00ff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.pixel-editor {
+    background-color: white !important;
+    color: black !important;
+    font-family: 'VT323', monospace;
+    padding: 1rem;
+    border: 2px solid #aa00ff;
+    border-radius: 6px;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+}
+
+
+.pixel-modal .modal-content {
+    background-color: #1a001f;
+    border: 2px solid #aa00ff;
+    color: white;
+    font-family: 'Press Start 2P', monospace;
+}
+
+.bounce-in {
+    animation: bounceIn 0.6s ease;
+}
+
+@keyframes bounceIn {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    60% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.blink {
+    animation: blinkText 1.2s steps(2, start) infinite;
+}
+
+@keyframes blinkText {
+    50% {
+        opacity: 0.4;
+    }
+}
+
+.tiny-btn {
+    padding: 0.25rem 0.6rem;
+    font-size: 0.9rem;
+}
+.theme-toggle-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 10px 20px;
+    background-color: var(--background);
+    border-bottom: 2px solid var(--pixel-border);
+    font-family: 'Press Start 2P', cursive;
+}
+
+.theme-label {
+    margin-left: 12px;
+    color: var(--text-color);
+    font-size: 0.8rem;
+}
+
+.pixel-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+    .pixel-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    background-color: #555;
+    transition: 0.4s;
+    border: 2px solid var(--pixel-border);
+    box-shadow: 0 0 4px #000;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        background-color: yellow;
+        transition: 0.4s;
+        top: 4px;
+        left: 4px;
+        box-shadow: inset -2px -2px 0 #000, inset 2px 2px 0 #000;
+    }
+
+
+.animated-header {
+    font-size: 2rem;
+    text-align: center;
+    color: #fff;
+    animation: pulseGlow 2s infinite;
+    margin-top: 2rem;
+    font-family: 'Press Start 2P', monospace;
+}
+
+@keyframes pulseGlow {
+    0% {
+        text-shadow: 0 0 5px #d7bfff, 0 0 10px #a067f5;
+    }
+    50% {
+        text-shadow: 0 0 10px #ffffff, 0 0 20px #a067f5;
+    }
+    100% {
+        text-shadow: 0 0 5px #d7bfff, 0 0 10px #a067f5;
+    }
+}

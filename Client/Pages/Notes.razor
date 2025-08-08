@@ -1,0 +1,176 @@
+﻿@page "/Notes"
+@inject HttpClient Http
+@inject NavigationManager Navigation
+<link href="css/notes.css" rel="stylesheet" />
+
+<h3>Your Notes</h3>
+
+@if (notes == null)
+{
+    <p>Loading...</p>
+}
+else if (!notes.Any())
+{
+    <div class="notes-container">
+    <p class="text-muted">No existing notes.</p>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col">
+            <div class="card h-100 border-dashed text-center d-flex align-items-center justify-content-center"
+                 style="cursor: pointer; min-height: 150px;"
+                 @onclick="CreateNewNote">
+                <div class="card-body">
+                    <h4 class="text-muted">+ Add Note</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+}
+else
+{
+    <div class="notes-container">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col">
+            <div class="card h-100 border-dashed text-center d-flex align-items-center justify-content-center"
+                 style="cursor: pointer; min-height: 150px;"
+                 @onclick="CreateNewNote">
+                <div class="card-body">
+                    <h4 class="text-muted">+ Add Note</h4>
+                </div>
+            </div>
+        </div>
+
+        <!-- Existing Notes -->
+        @foreach (var note in notes)
+        {
+            <div class="col">
+                <div class="card h-100 shadow-sm" style="position: relative;">
+                    <div class="card-body" @onclick="@(() => NavigateToEdit(note.Id))" style="cursor: pointer;">
+                        <h5 class="card-title">@note.Title</h5>
+                        <p class="card-text text-muted small">
+                            Click to open your note.
+                        </p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between align-items-center">
+                        <small class="text-muted">Updated: @note.LastUpdatedAt.ToString("g")</small>
+                        <button class="btn btn-sm btn-danger" @onclick="@(() => ShowDeleteModal(note.Id))">🗑️</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    </div>
+}
+
+<!-- Delete Modal -->
+@if (showDeleteModal)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Delete</h5>
+                    <button type="button" class="btn-close" @onclick="CloseDeleteModal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this note?</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" @onclick="CloseDeleteModal">Cancel</button>
+                    <button class="btn btn-danger" @onclick="ConfirmDelete">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<p class="text-danger mt-3">@errorMessage</p>
+
+@code {
+    private List<UserNotes> notes;
+    private string? errorMessage;
+
+    private bool showDeleteModal = false;
+    private int noteIdToDelete;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            notes = await Http.GetFromJsonAsync<List<UserNotes>>("api/notes");
+        }
+        catch (Exception ex)
+        {
+            errorMessage = "Failed to load notes. " + ex.Message;
+        }
+    }
+
+    private async void CreateNewNote()
+    {
+        var newNote = new UserNotes
+            {
+                Title = "Untitled Note",
+                Content = $"https://board.net/p/note_{Guid.NewGuid()}",
+                LastUpdatedAt = DateTime.Now
+            };
+
+        try
+        {
+            var response = await Http.PostAsJsonAsync("api/notes", newNote);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var createdNote = await response.Content.ReadFromJsonAsync<UserNotes>();
+                Navigation.NavigateTo($"/edit-note/{createdNote.Id}");
+            }
+            else
+            {
+                errorMessage = "Failed to create note.";
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = "An error occurred: " + ex.Message;
+        }
+    }
+
+    private void NavigateToEdit(int noteId)
+    {
+        Navigation.NavigateTo($"/edit-note/{noteId}");
+    }
+
+    private void ShowDeleteModal(int noteId)
+    {
+        noteIdToDelete = noteId;
+        showDeleteModal = true;
+    }
+
+    private void CloseDeleteModal()
+    {
+        showDeleteModal = false;
+    }
+
+    private async Task ConfirmDelete()
+    {
+        var response = await Http.DeleteAsync($"api/notes/{noteIdToDelete}");
+        if (response.IsSuccessStatusCode)
+        {
+            notes = await Http.GetFromJsonAsync<List<UserNotes>>("api/notes");
+        }
+        else
+        {
+            errorMessage = "Failed to delete note.";
+        }
+
+        showDeleteModal = false;
+    }
+
+    public class UserNotes
+    {
+        public int Id { get; set; }
+        public string? Title { get; set; }
+        public string? Content { get; set; } 
+        public DateTime LastUpdatedAt { get; set; }
+    }
+}
+

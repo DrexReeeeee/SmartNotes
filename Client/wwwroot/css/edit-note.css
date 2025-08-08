@@ -1,0 +1,111 @@
+﻿
+body {
+    font-family: 'Press Start 2P', cursive;
+    background: radial-gradient(ellipse at center, #1a001a 0%, #000000 100%);
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+    animation: crtFlicker 0.15s infinite;
+}
+
+
+iframe {
+    background-color: #ffffff !important;
+    border: 4px solid #8a2be2;
+    box-shadow: 0 0 10px #8a2be2;
+    border-radius: 8px;
+}
+
+h3 {
+    font-size: 36px;
+    color: white;
+    text-shadow: 0 0 4px #ff00ff;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.form-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: #ffb3ff;
+    text-shadow: 0 0 3px #ff66ff;
+}
+
+input.form-control {
+    font-family: 'Press Start 2P', cursive;
+    background-color: #1a001a;
+    border: 2px solid #ff00ff;
+    color: #ffffff;
+    padding: 8px;
+    border-radius: 4px;
+    box-shadow: 0 0 5px #ff00ff;
+}
+
+    input.form-control:focus {
+        outline: none;
+        border-color: #b300b3;
+        box-shadow: 0 0 8px #cc00cc;
+    }
+
+button.btn {
+    font-family: 'Press Start 2P', cursive;
+    border: 2px solid;
+    padding: 8px 12px;
+    font-size: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    transition: transform 0.1s ease-in-out;
+}
+
+button.btn-primary {
+    background-color: #8000ff;
+    color: white;
+    border-color: #d580ff;
+    box-shadow: 0 0 6px #cc66ff;
+}
+
+button.btn-danger {
+    background-color: #ff0055;
+    color: white;
+    border-color: #ff80aa;
+    box-shadow: 0 0 6px #ff4d94;
+}
+
+button.btn-secondary {
+    background-color: #444444;
+    color: #ffffff;
+    border-color: #888888;
+    box-shadow: 0 0 6px #aaaaaa;
+}
+
+button.btn:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+
+.alert-info {
+    background-color: #3b0066;
+    border: 2px solid #ff66ff;
+    color: #fff0ff;
+    font-size: 10px;
+    font-family: 'Press Start 2P', cursive;
+    padding: 10px;
+    box-shadow: 0 0 6px #cc00cc;
+    border-radius: 6px;
+}
+
+ol {
+    padding-left: 20px;
+    margin: 0;
+}
+
+
+.text-danger {
+    font-size: 10px;
+    color: #ff4d94;
+    text-shadow: 0 0 4px #ff1a75;
+    margin-top: 10px;
+}
+

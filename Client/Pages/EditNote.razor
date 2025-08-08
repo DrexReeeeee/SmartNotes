@@ -1,0 +1,139 @@
+﻿@page "/edit-note/{NoteId:int?}"
+@inject HttpClient Http
+@inject NavigationManager Navigation
+<link href="css/edit-note.css" rel="stylesheet" />
+
+<h3>EDIT NOTE</h3>
+
+@if (loading)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="mb-3">
+        <label class="form-label">Title</label>
+        <input class="form-control" @bind="note.Title" />
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(note.Content))
+    {
+        <div class="mb-3">
+            <iframe src="@note.Content"
+                    width="100%"
+                    height="600px"
+                    frameborder="0"
+                    allowfullscreen>
+            </iframe>
+
+            
+            <a class="btn btn-secondary mt-2"
+               href="@note.Content"
+               target="_blank"
+               rel="noopener noreferrer">
+                🖨️ Open in New Tab to Print / Save as PDF
+            </a>
+
+            <div class="alert alert-info mt-3">
+                <strong>How to Save as PDF:</strong>
+                <ol class="mb-0">
+                    <li>Click the button above to open the note in a new tab.</li>
+                    <li>Once it opens, press <strong>Ctrl + P</strong> (or <strong>Cmd + P</strong> on Mac).</li>
+                    <li>Choose <strong>"Save as PDF"</strong> as your printer option.</li>
+                    <li>Click <strong>Save</strong>.</li>
+                </ol>
+            </div>
+        </div>
+    }
+
+    <div class="mt-3">
+        <button class="btn btn-primary" @onclick="SaveNote">Return Home</button>
+        <button class="btn btn-danger" @onclick="DeleteNote">Delete</button>
+    </div>
+
+    <p class="text-danger mt-2">@errorMessage</p>
+}
+
+@code {
+    [Parameter] public int? NoteId { get; set; }
+
+    private UserNotes note = new();
+    private string? errorMessage;
+    private bool loading = true;
+
+    private const string EtherpadBaseUrl = "https://board.net/p/";
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (NoteId.HasValue && NoteId != 0)
+        {
+            try
+            {
+                var allNotes = await Http.GetFromJsonAsync<List<UserNotes>>("api/notes");
+                note = allNotes.FirstOrDefault(n => n.Id == NoteId.Value) ?? new UserNotes();
+
+                if (string.IsNullOrWhiteSpace(note.Content))
+                {
+                    note.Content = $"{EtherpadBaseUrl}note_{Guid.NewGuid()}";
+                    await SaveNote();
+                }
+            }
+            catch (Exception ex)
+            {
+                errorMessage = "Failed to load note: " + ex.Message;
+            }
+        }
+        loading = false;
+    }
+
+    private async Task SaveNote()
+    {
+        note.LastUpdatedAt = DateTime.Now;
+
+        HttpResponseMessage response;
+        if (note.Id == 0)
+        {
+            response = await Http.PostAsJsonAsync("api/notes", note);
+        }
+        else
+        {
+            response = await Http.PutAsJsonAsync($"api/notes/{note.Id}", note);
+        }
+
+        if (response.IsSuccessStatusCode)
+        {
+            Navigation.NavigateTo("/notes");
+        }
+        else
+        {
+            errorMessage = "Failed to save note.";
+        }
+    }
+
+    private async Task DeleteNote()
+    {
+        if (note.Id == 0)
+        {
+            Navigation.NavigateTo("/notes");
+            return;
+        }
+
+        var response = await Http.DeleteAsync($"api/notes/{note.Id}");
+        if (response.IsSuccessStatusCode)
+        {
+            Navigation.NavigateTo("/notes");
+        }
+        else
+        {
+            errorMessage = "Failed to delete note.";
+        }
+    }
+
+    public class UserNotes
+    {
+        public int Id { get; set; }
+        public string? Title { get; set; }
+        public string? Content { get; set; } 
+        public DateTime LastUpdatedAt { get; set; }
+    }
+}

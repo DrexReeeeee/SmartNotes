@@ -1,0 +1,34 @@
+﻿@inherits LayoutComponentBase
+@inject IJSRuntime JSRuntime
+
+<div class="theme-toggle-container">
+    <label class="pixel-switch">
+        <input type="checkbox" checked="@isDarkMode" @onchange="ToggleTheme" />
+        <span class="slider"></span>
+    </label>
+    <span class="theme-label">@themeLabel</span>
+</div>
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <article class="content crt-effect">
+            @Body
+        </article>
+    </main>
+</div>
+
+@code {
+    private bool isDarkMode = true;
+    private string themeLabel => isDarkMode ? "Dark Mode" : "Light Mode";
+
+    private async Task ToggleTheme(ChangeEventArgs e)
+    {
+        isDarkMode = (bool)e.Value;
+        var theme = isDarkMode ? "dark" : "light";
+        await JSRuntime.InvokeVoidAsync("applyTheme", theme);
+    }
+}

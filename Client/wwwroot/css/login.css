@@ -1,0 +1,105 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+.animated-logo {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 48px;
+    color: #ff66ff;
+    text-align: center;
+    text-shadow: 0 0 2px #fff, 0 0 4px #f0f, 0 0 6px #f0f, 0 0 10px #a0f, 0 0 12px #90f;
+    animation: glow-pulse 3s ease-in-out infinite, bounce 2s ease-in-out infinite;
+    position: absolute;
+    top: 40px;
+    width: 100%;
+}
+
+
+@keyframes glow-pulse {
+    0%, 100% {
+        text-shadow: 0 0 2px #fff, 0 0 4px #f0f, 0 0 6px #f0f, 0 0 10px #a0f, 0 0 12px #90f;
+    }
+
+    50% {
+        text-shadow: 0 0 3px #fff, 0 0 6px #ff0, 0 0 10px #ff0, 0 0 14px #f0f, 0 0 16px #f0f;
+    }
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+
+.login-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.login-box {
+    background: rgba(30, 0, 51, 0.9);
+    border: 4px solid #9f5ce3;
+    padding: 30px;
+    border-radius: 8px;
+    width: 400px;
+    z-index: 10;
+    position: relative;
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.pixel-icon {
+    font-size: 48px;
+    color: #ffffff;
+    text-shadow: 0 0 2px #fff, 0 0 4px #ff00ff, 0 0 8px #ff00ff;
+}
+
+
+.eye-toggle {
+    background: #9f5ce3;
+    cursor: pointer;
+    padding: 8px;
+}
+
+.password-group {
+    display: flex;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.crt-effect {
+    animation: crt-flicker 0.15s infinite;
+}
+
+@keyframes crt-flicker {
+    0%, 100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.97;
+    }
+}
+.pixel-btn {
+    background: #9f5ce3;
+    border: 3px solid white;
+    color: black;
+    padding: 10px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+    font-family: 'PressStart2P', monospace;
+    text-shadow: 1px 1px black;
+    transition: all 0.2s;
+}
+
