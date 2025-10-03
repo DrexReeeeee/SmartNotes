@@ -19,33 +19,42 @@ namespace SmartNotes.Controllers
         [HttpPost("summarize")]
         public async Task<IActionResult> Summarize(IFormFile file)
         {
+            if (file == null || file.Length == 0)
+                return BadRequest("No file uploaded");
+
             try
             {
-                if (file == null || file.Length == 0)
-                    return BadRequest("No file uploaded");
-
+                // Read PDF into memory
                 using var ms = new MemoryStream();
                 await file.CopyToAsync(ms);
                 ms.Position = 0;
 
-                var sb = new StringBuilder();
-                using var doc = PdfDocument.Open(ms);
-                foreach (var page in doc.GetPages())
+                string extractedText;
+                try
                 {
-                    sb.AppendLine(page.Text);
+                    var sb = new StringBuilder();
+                    using var doc = PdfDocument.Open(ms);
+                    foreach (var page in doc.GetPages())
+                        sb.AppendLine(page.Text);
+
+                    extractedText = sb.ToString();
+                }
+                catch (Exception pdfEx)
+                {
+                    return BadRequest($"Failed to read PDF: {pdfEx.Message}");
                 }
 
-                var extractedText = sb.ToString();
                 if (string.IsNullOrWhiteSpace(extractedText))
                     return BadRequest("No readable text in the PDF.");
 
+                // Summarize
                 var summary = await _summarizer.SummarizeText(extractedText);
-
                 return Ok(new { summary });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Server error: {ex.Message}");
+                // Return full stack trace for debugging (remove in production)
+                return StatusCode(500, $"Server error: {ex}");
             }
         }
     }
