@@ -26,7 +26,7 @@
 
 ---
 
-## 🧰 Tech Stack — *Your Game Gear*
+## 🧰 Tech Stack — *Game Gear*
 
 | 🎨 Frontend | ⚙ Backend | 🧩 Other Tools |
 |-------------|-----------|---------------|
