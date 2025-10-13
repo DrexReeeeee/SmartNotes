@@ -5,6 +5,17 @@
 > 📄✨ Collaborate in **real time**, share notes like cheat codes, and enjoy a **CRT-screen-style studying experience**.
 
 ---
+## 🖼️ Documentation Preview
+
+<p align="center">
+  <img src="smartnotes1.png" alt="Smart Notes Documentation Screenshot" width="700">
+  <img src="smartnotes2.png" alt="Smart Notes Documentation Screenshot" width="700">
+  <img src="smartnotes3.png" alt="Smart Notes Documentation Screenshot" width="700">
+  <br>
+  <em>📘 A glimpse of Smart Notes in action — pixel-perfect and student-powered!</em>
+</p>
+
+---
 
 ## 🧑‍💻 Developer
 
